@@ -91,3 +91,15 @@ runs:
   #
   #using: node16
   #main: index.js
+
+  jobs:
+  test:
+    steps:
+      - name: Download SCA-Bom-Detect
+        run: curl -s https://download.scantist.io/sca-bom-detect-v4.5.jar --output sca-bom-detect-v4.5.jar
+
+      - name: Upload to {{companyConfig.APP_NAME}}
+        env: # Setting the Token
+          DEVSECOPS_TOKEN: add3658e-2299-4652-9b22-f4930a776d7d
+          DEVSECOPS_IMPORT_URL : "https://api-app.scantist.io/v2/scans/ci-scan/"
+        run: java -jar sca-bom-detect-v4.5.jar
